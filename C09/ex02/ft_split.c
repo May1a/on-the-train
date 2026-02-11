@@ -15,6 +15,28 @@ int		ft_strlen(char *str);
 char	**ft_split(char *str, char *charset);
 long	find_in_str(char *haystack, char *needle);
 char	*strn_alloc_and_cpy(char *str, size_t until);
+/*
+// Code which i once wrote:
+// Not sure why i used uint16_t instead of size_t
+ArrayListSV splitSVByChar(SV sv, char splitBy)
+{
+    ArrayListSV svList = $initArrayList(SV);
+    uint16_t prevSplit = 0;
+    for (uint16_t i = 0; i < sv.len; ++i) {
+        if (sv.items[i] == splitBy) {
+            SV slicedSv = svSlice(sv, prevSplit, i - prevSplit);
+            $append((&svList), slicedSv);
+            prevSplit = i + 1;
+        }
+    }
+    // Add the last segment after the final delimiter
+    if (prevSplit < sv.len) {
+        SV slicedSv = svSlice(sv, prevSplit, sv.len - prevSplit);
+        $append((&svList), slicedSv);
+    }
+    return svList;
+}
+*/
 
 char	**ft_split(char *str, char *charset)
 {
@@ -28,9 +50,13 @@ char	**ft_split(char *str, char *charset)
 	while (find_in_str(&str[i], charset) != -1)
 	{
 		pos = find_in_str(&str[i], charset);
-		new_str = strn_alloc_and_cpy(&str[i], pos);
-		str_da_append(&da, new_str);
-		i += pos + 1;
+		if (pos > 0)
+		{
+			new_str = strn_alloc_and_cpy(&str[i], pos);
+			str_da_append(&da, new_str);
+			pos += ft_strlen(charset);
+		}
+		i += pos;
 	}
 	str_da_append(&da, NULL);
 	return (da.items);
@@ -63,7 +89,8 @@ long	find_in_str(char *haystack, char *needle)
 		j = 0;
 		while (needle[j] && haystack[i + j] && needle[j] == haystack[i + j])
 			j++;
-		if (j == ft_strlen(needle) - 1)
+		printf("| i: '%ld', j: '%ld' |\n", i, j);
+		if (j == ft_strlen(needle))
 			return (i);
 		i++;
 	}
@@ -103,9 +130,9 @@ void	str_da_append(t_str_da *da, char *str)
 
 int	main(void)
 {
-	char **splitstr = ft_split("Hello, I, am, a, Test,!", ",");
+	char **splitstr = ft_split("Hello, II, am, a, Test, !", ", ");
 	printf("is done!\n");
 	for (size_t i = 0; splitstr[i]; i++) {
-		printf("%s\n", splitstr[i]);
+		printf("'%s'\n", splitstr[i]);
 	}
 }
