@@ -1,0 +1,3 @@
+cc -Wall -Wextra -Werror -c -Qunused-arguments ft_putchar.c ft_strcmp.c ft_swap.c ft_putstr.c ft_strlen.c
+ar rc libft.a ft_putchar.o ft_strcmp.o ft_swap.o ft_putstr.o ft_strlen.o
+rm ft_putchar.o ft_strcmp.o ft_swap.o ft_putstr.o ft_strlen.o # not sure if I should do this?
