@@ -30,7 +30,7 @@ char	**ft_split(char *str, char *charset)
 		pos = find_in_str(&str[i], charset);
 		new_str = strn_alloc_and_cpy(&str[i], pos);
 		str_da_append(&da, new_str);
-		i += pos;
+		i += pos + 1;
 	}
 	str_da_append(&da, NULL);
 	return (da.items);
@@ -104,7 +104,8 @@ void	str_da_append(t_str_da *da, char *str)
 int	main(void)
 {
 	char **splitstr = ft_split("Hello, I, am, a, Test,!", ",");
+	printf("is done!\n");
 	for (size_t i = 0; splitstr[i]; i++) {
-		printf("%s", splitstr[i]);
+		printf("%s\n", splitstr[i]);
 	}
 }
