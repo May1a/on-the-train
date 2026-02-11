@@ -28,3 +28,9 @@ clean:
 	$(SRC)/ft_putstr.o \
 	$(SRC)/ft_swap.o   \
 	$(SRC)/ft_putchar.o
+
+fclean:
+	clean && rm libft.a
+
+re:
+	fclean && all
